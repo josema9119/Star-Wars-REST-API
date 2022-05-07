@@ -47,6 +47,12 @@ def get_all_users():
     users_serialized = list(map(lambda x: x.serialize(), users))
     return jsonify({"response": users_serialized}), 200
 
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_one_user(user_id):
+    user = User.query.get(user_id)
+    return jsonify({"response": user}), 200
+
+
 @app.route('/character', methods=['POST'])
 def create_character():
     body_name= request.json.post("name")
