@@ -8,7 +8,7 @@ from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap
 from admin import setup_admin
-from models import db, User
+from models import db, User, Favorites, Character, Planet, Vehicle
 #from models import Perso
 
 app = Flask(__name__)
@@ -50,7 +50,14 @@ def get_all_users():
 @app.route('/user/<int:user_id>', methods=['GET'])
 def get_one_user(user_id):
     user = User.query.get(user_id)
-    return jsonify({"response": user}), 200
+    return jsonify({"response": user.serialize()}), 200
+
+@app.route('/user/<int:user_id>', methods=['DELETE'])
+def delete_one_user(user_id):
+    user = User.query.delete(id = user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify ({"deleted":True}), 200
 
 
 @app.route('/character', methods=['POST'])
@@ -64,10 +71,22 @@ def create_character():
 
 @app.route('/character', methods=['GET'])
 def get_all_characters():
-    characters = character.query.all()
+    characters = Character.query.all()
     characters_serialized = list(map(lambda x: x.serialize(), characters))
     return jsonify({"response": characters_serialized}), 200
-    
+
+@app.route('/character/<int:character_id>', methods=['GET'])
+def get_one_character():
+    character = Character.query.get(character_id)
+    return jsonify({"response": character}), 200
+
+@app.route('/character/<int:character_id>', methods=['DELETE'])
+def delete_one_character(character_id):
+    character = Character.query.delete(id = character_id)
+    db.session.delete(character)
+    db.session.commit()
+    return jsonify ({"deleted":True}), 200
+
 @app.route('/planet', methods=['POST'])
 def create_planet():
     body_name = request.json.post("name")
@@ -85,6 +104,18 @@ def get_all_planets():
     planets_serialized = list(map(lambda x: x.serialize(), planets))
     return jsonify({"response": planets_serialized}), 200
 
+@app.route('/planet/<int:planet_id>', methods=['GET'])
+def get_one_planet():
+    planet = Planet.query.get(planet_id)
+    return jsonify({"response": planet}), 200
+
+@app.route('/planet/<int:planet_id>', methods=['DELETE'])
+def delete_one_planet(planet_id):
+    planet = Planet.query.delete(id = planet_id)
+    db.session.delete(planet)
+    db.session.commit()
+    return jsonify ({"deleted":True}), 200
+
 @app.route('/vehicle', methods=['POST'])
 def create_vehicle():
     body_model= request.json.post("model")
@@ -101,6 +132,40 @@ def get_all_vehicles():
     vehicles = vehicle.query.all()
     vehicles_serialized = list(map(lambda x: x.serialize(), vehicles))
     return jsonify({"response": vehicles_serialized}), 200
+
+@app.route('/vehicle/<int:vehicle_id>', methods=['GET'])
+def get_one_vehicle():
+    vehicle = Vehicle.query.get(vehicle_id)
+    return jsonify({"response": vehicle}), 200
+
+@app.route('/vehicle/<int:vehicle_id>', methods=['DELETE'])
+def delete_one_vehicle(vehicle_id):
+    vehicle = Vechicle.query.delete(id = vehicle_id)
+    db.session.delete(vehicle)
+    db.session.commit()
+    return jsonify ({"deleted":True}), 200
+
+@app.route('/favorites/<int:favorites_id>', methods=['DELETE'])
+def delete_one_favorites(favorites_id):
+    favorites = Favorites.query.get(favorites_id)
+    db.session.delete(favorites)
+    db.session.commit()
+    return jsonify({"deleted": True}), 200
+
+@app.route('/user/<int:user_id>/favorites', methods= ['GET'])
+def get_favorites(user_id):
+    favorites = Favorites.query.filter_by(user_id = user_id).first()
+    return jsonify({'favorites': favorites.serialize()}), 200
+
+@app.route('/user/<int:user_id>/favorites/character/<int:character_id>', methods=['POST'])
+def post_one_favourite_character(user_id, character_id):
+    favorites = Favorites(user_id = user_id, character_id = character_id)
+    db.session.add(favorites)
+    db.session.commit()
+    return jsonify(({'favorites': favorites.serialize()})), 200
+
+#@app.route('/user/<int:user_id>/favorites/planet/<int:planet_id>/')
+#@app.route('/user/<int:user_id>/favorites/vehicle/<int:vehicle_id>/')
 
 
 # this only runs if `$ python src/main.py` is executed

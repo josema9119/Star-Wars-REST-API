@@ -66,3 +66,21 @@ class Vehicle(db.Model):
             "passengers": self.passengers
         }
     
+class Favorites(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User")
+    character_id = db.Column(db.Integer, db.ForeignKey("character.id"))
+    character = db.relationship("Character")
+    planet_id = db.Column(db.Integer, db.ForeignKey("planet.id"))
+    planet = db.relationship("Planet")
+    vehicle_id = db.Column(db.Integer, db.ForeignKey("vehicle.id"))
+    vehicle = db.relationship("Vehicle")
+    def serialize(self):
+        return{
+            "id": self.id,
+            "user_id": self.user_id,
+            "character_id": self.character_id,
+            "planet_id": self.planet_id,
+            "vehicle_id": self.vehicle_id
+        }
