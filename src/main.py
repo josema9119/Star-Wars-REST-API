@@ -164,8 +164,19 @@ def post_one_favourite_character(user_id, character_id):
     db.session.commit()
     return jsonify(({'favorites': favorites.serialize()})), 200
 
-#@app.route('/user/<int:user_id>/favorites/planet/<int:planet_id>/')
-#@app.route('/user/<int:user_id>/favorites/vehicle/<int:vehicle_id>/')
+@app.route('/user/<int:user_id>/favorites/planet/<int:planet_id>/', methods=['POST'])
+def post_one_favourite_planet(user_id, planet_id):
+    favorites = Favorites(user_id = user_id, planet_id = planet_id)
+    db.session.add(favorites)
+    db.session.commit()
+    return jsonify(({'favorites': favorites.serialize()})), 200
+
+@app.route('/user/<int:user_id>/favorites/vehicle/<int:vehicle_id>/', methods=['POST'])
+def post_one_favourite_vehicle(user_id, vehicle_id):
+    favorites = Favorites(user_id = user_id, vehicle_id = vehicle_id)
+    db.session.add(favorites)
+    db.session.commit()
+    return jsonify(({'favorites': favorites.serialize()})), 200
 
 
 # this only runs if `$ python src/main.py` is executed
