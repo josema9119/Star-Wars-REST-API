@@ -32,10 +32,10 @@ def sitemap():
 
 @app.route('/user', methods=['POST'])
 def create_user():
-    body_name = request.json.post("name")
-    body_username = request.json.post("username")
-    body_email = request.json.post("email")
-    body_password = request.json.post("password") 
+    body_name = request.json.get("name")
+    body_username = request.json.get("username")
+    body_email = request.json.get("email")
+    body_password = request.json.get("password") 
     user = User(name = body_name, username = body_username, email = body_email, password = body_password)
     db.session.add(user) 
     db.session.commit()
@@ -62,9 +62,9 @@ def delete_one_user(user_id):
 
 @app.route('/character', methods=['POST'])
 def create_character():
-    body_name= request.json.post("name")
-    body_gender= request.json.post("gender")
-    body_age= request.json.post("age")
+    body_name= request.json.get("name")
+    body_gender= request.json.get("gender")
+    body_age= request.json.get("age")
     db.session.add(character)
     db.session.commit()
     character= Character({"name": character.name, "msg": "Creado el nuevo planet con id" + str(character.id)}), 200
@@ -89,10 +89,10 @@ def delete_one_character(character_id):
 
 @app.route('/planet', methods=['POST'])
 def create_planet():
-    body_name = request.json.post("name")
-    body_population = request.json.post("population")
-    body_terrain = request.json.post("terrain")
-    body_diameter = request.json.post("diameter")
+    body_name = request.json.get("name")
+    body_population = request.json.get("population")
+    body_terrain = request.json.get("terrain")
+    body_diameter = request.json.get("diameter")
     planet = Planet(name= body_name, population= body_population, terrain= body_terrain, diameter= body_diameter)
     db.session.add(planet)
     db.sessin.commit()
@@ -118,10 +118,10 @@ def delete_one_planet(planet_id):
 
 @app.route('/vehicle', methods=['POST'])
 def create_vehicle():
-    body_model= request.json.post("model")
-    body_cost_credits= request.json("cost_credits")
-    body_cargo_capacity= request.json("cargo_capacity")
-    body_passengers= request.json("passengers")
+    body_model= request.json.get("model")
+    body_cost_credits= request.json.get("cost_credits")
+    body_cargo_capacity= request.json.get("cargo_capacity")
+    body_passengers= request.json.get("passengers")
     vehicle= Vehicle(model=body_model, cost_credits= body_cost_credits, cargo_capacity= body_cargo_capacity, passengers= body_passengers)
     db.session.add(vehicle)
     db.session.commit()
