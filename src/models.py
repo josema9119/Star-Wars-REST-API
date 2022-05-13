@@ -20,6 +20,8 @@ class User(db.Model):
             "email": self.email
         }
 
+        
+
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(250), nullable=False)
