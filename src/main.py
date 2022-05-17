@@ -76,7 +76,7 @@ def get_all_characters():
     return jsonify({"response": characters_serialized}), 200
 
 @app.route('/character/<int:character_id>', methods=['GET'])
-def get_one_character():
+def get_one_character(character_id):
     character = Character.query.get(character_id)
     return jsonify({"response": character}), 200
 
@@ -95,12 +95,12 @@ def create_planet():
     body_diameter = request.json.get("diameter")
     planet = Planet(name= body_name, population= body_population, terrain= body_terrain, diameter= body_diameter)
     db.session.add(planet)
-    db.sessin.commit()
+    db.session.commit()
     return jsonify({"name": planet.name, "msg": "Creado el nuevo planet con id" + str(planet.id)}), 200
 
 @app.route('/planet', methods=['GET'])
 def get_all_planets():
-    planets = planet.query.all()
+    planets = Planet.query.all()
     planets_serialized = list(map(lambda x: x.serialize(), planets))
     return jsonify({"response": planets_serialized}), 200
 
@@ -129,7 +129,7 @@ def create_vehicle():
 
 @app.route('/vehicle', methods=['GET'])
 def get_all_vehicles():
-    vehicles = vehicle.query.all()
+    vehicles = Vehicle.query.all()
     vehicles_serialized = list(map(lambda x: x.serialize(), vehicles))
     return jsonify({"response": vehicles_serialized}), 200
 
