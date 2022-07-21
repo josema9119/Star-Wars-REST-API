@@ -54,7 +54,7 @@ def get_one_user(user_id):
 
 @app.route('/user/<int:user_id>', methods=['DELETE'])
 def delete_one_user(user_id):
-    user = User.query.delete(id = user_id)
+    user = User.query.get(id = user_id)
     db.session.delete(user)
     db.session.commit()
     return jsonify ({"deleted":True}), 200
@@ -82,7 +82,7 @@ def get_one_character(character_id):
 
 @app.route('/character/<int:character_id>', methods=['DELETE'])
 def delete_one_character(character_id):
-    character = Character.query.delete(id = character_id)
+    character = Character.query.get(id = character_id)
     db.session.delete(character)
     db.session.commit()
     return jsonify ({"deleted":True}), 200
@@ -111,7 +111,7 @@ def get_one_planet():
 
 @app.route('/planet/<int:planet_id>', methods=['DELETE'])
 def delete_one_planet(planet_id):
-    planet = Planet.query.delete(id = planet_id)
+    planet = Planet.query.get(id = planet_id)
     db.session.delete(planet)
     db.session.commit()
     return jsonify ({"deleted":True}), 200
@@ -140,7 +140,7 @@ def get_one_vehicle():
 
 @app.route('/vehicle/<int:vehicle_id>', methods=['DELETE'])
 def delete_one_vehicle(vehicle_id):
-    vehicle = Vechicle.query.delete(id = vehicle_id)
+    vehicle = Vechicle.query.get(id = vehicle_id)
     db.session.delete(vehicle)
     db.session.commit()
     return jsonify ({"deleted":True}), 200
