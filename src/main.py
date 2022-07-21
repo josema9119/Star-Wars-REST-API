@@ -54,7 +54,7 @@ def get_one_user(user_id):
 
 @app.route('/user/<int:user_id>', methods=['DELETE'])
 def delete_one_user(user_id):
-    user = User.query.delete(id = user_id)
+    user = User.query.get( user_id)
     db.session.delete(user)
     db.session.commit()
     return jsonify ({"deleted":True}), 200
