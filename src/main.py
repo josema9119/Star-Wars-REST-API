@@ -56,7 +56,7 @@ def get_one_user(user_id):
 def delete_one_user(user_id):
     user = User.query.get( user_id)
     db.session.delete(user)
-    db.session.commit()
+    db.session.commit
     return jsonify ({"deleted":True}), 200
 
 
