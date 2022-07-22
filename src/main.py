@@ -78,7 +78,7 @@ def get_all_characters():
 @app.route('/character/<int:character_id>', methods=['GET'])
 def get_one_character(character_id):
     character = Character.query.get(character_id)
-    return jsonify({"response": character}), 200
+    return jsonify({"response": character.serialize}), 200
 
 @app.route('/character/<int:character_id>', methods=['DELETE'])
 def delete_one_character(character_id):
@@ -105,9 +105,9 @@ def get_all_planets():
     return jsonify({"response": planets_serialized}), 200
 
 @app.route('/planet/<int:planet_id>', methods=['GET'])
-def get_one_planet():
+def get_one_planet(planet_id):
     planet = Planet.query.get(planet_id)
-    return jsonify({"response": planet}), 200
+    return jsonify({"response": planet.serialize}), 200
 
 @app.route('/planet/<int:planet_id>', methods=['DELETE'])
 def delete_one_planet(planet_id):
@@ -134,9 +134,9 @@ def get_all_vehicles():
     return jsonify({"response": vehicles_serialized}), 200
 
 @app.route('/vehicle/<int:vehicle_id>', methods=['GET'])
-def get_one_vehicle():
+def get_one_vehicle(vehicle_id):
     vehicle = Vehicle.query.get(vehicle_id)
-    return jsonify({"response": vehicle}), 200
+    return jsonify({"response": vehicle.serialize}), 200
 
 @app.route('/vehicle/<int:vehicle_id>', methods=['DELETE'])
 def delete_one_vehicle(vehicle_id):
